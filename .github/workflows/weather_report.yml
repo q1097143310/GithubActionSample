@@ -9,12 +9,8 @@ appID = os.environ.get("APP_ID")
 appSecret = os.environ.get("APP_SECRET")
 # 收信人ID即 用户列表中的微信号
 openId = os.environ.get("OPEN_ID")
-# 收信人ID即 用户列表中的微信号
-openId2 = os.environ.get("OPEN_ID2")
 # 天气预报模板ID
 weather_template_id = os.environ.get("TEMPLATE_ID")
-
-
 
 def get_weather(my_city):
     urls = ["http://www.weather.com.cn/textFC/hb.shtml",
@@ -82,7 +78,7 @@ def get_daily_love():
     return daily_love
 
 
-def send_weather(access_token, weather, openId):
+def send_weather(access_token, weather):
     # touser 就是 openID
     # template_id 就是模板ID
     # url 就是点击模板跳转的url
@@ -129,11 +125,9 @@ def weather_report(this_city):
     weather = get_weather(this_city)
     print(f"天气信息： {weather}")
     # 3. 发送消息
-    send_weather(access_token, weather,openId)
-    access_token2 = get_access_token()
-    send_weather(access_token2, weather,openId2)
+    send_weather(access_token, weather)
 
 
 
 if __name__ == '__main__':
-    weather_report("广州")
+    weather_report("淄博")
