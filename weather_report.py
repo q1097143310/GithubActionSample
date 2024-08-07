@@ -12,6 +12,9 @@ openId = os.environ.get("OPEN_ID")
 # 天气预报模板ID
 weather_template_id = os.environ.get("TEMPLATE_ID")
 
+appID2 = os.environ.get("APP_ID2")
+appSecret2 = os.environ.get("APP_SECRET2")
+
 def get_weather(my_city):
     urls = ["http://www.weather.com.cn/textFC/hb.shtml",
             "http://www.weather.com.cn/textFC/db.shtml",
@@ -59,6 +62,15 @@ def get_weather(my_city):
 
 
 def get_access_token():
+    # 获取access token的url
+    url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={}&secret={}' \
+        .format(appID.strip(), appSecret.strip())
+    response = requests.get(url).json()
+    print(response)
+    access_token = response.get('access_token')
+    return access_token
+
+def get_access_token2():
     # 获取access token的url
     url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={}&secret={}' \
         .format(appID.strip(), appSecret.strip())
@@ -121,11 +133,15 @@ def send_weather(access_token, weather):
 def weather_report(this_city):
     # 1.获取access_token
     access_token = get_access_token()
+
+    access_token2 = get_access_token2()
     # 2. 获取天气
     weather = get_weather(this_city)
     print(f"天气信息： {weather}")
     # 3. 发送消息
     send_weather(access_token, weather)
+
+   send_weather(access_token2, weather)
 
 
 
